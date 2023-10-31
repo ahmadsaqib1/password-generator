@@ -108,8 +108,14 @@ function getPasswordOptions() {
     return null;
   }
 
+  var allChars = [];
+  if (useLowercase) allChars = allChars.concat(lowerCasedCharacters);
+  if (useUppercase) allChars = allChars.concat(upperCasedCharacters);
+  if (useNumbers) allChars = allChars.concat(numericCharacters);
+  if (useSpecialChars) allChars = allChars.concat(specialCharacters);
+
   return {
-    length: length,
+    password_length: length,
     useLowercase: useLowercase,
     useUppercase: useUppercase,
     useNumbers: useNumbers,
@@ -119,14 +125,28 @@ function getPasswordOptions() {
 
 // Function for getting a random element from an array
 function getRandom(arr) {
-
+  var randomNumber = Math.floor(Math.random() * arr.length);
+  return arr[randomNumber];
 }
 
 // Function to generate password with user input
 function generatePassword() {
   var options = getPasswordOptions();
   if (!options) return ""; // User canceled or provided invalid input
-  console.log("user password options",options)
+  console.log("user password options",options); 
+
+  var allChars = [];
+  if (options.useLowercase) allChars = allChars.concat(lowerCasedCharacters);
+  if (options.useUppercase) allChars = allChars.concat(upperCasedCharacters);
+  if (options.useNumbers) allChars = allChars.concat(numericCharacters);
+  if (options.useSpecialChars) allChars = allChars.concat(specialCharacters);
+
+  var password = "";
+  for (var i = 0; i < options.password_length; i++) {
+    password += getRandom(allChars);
+  }
+  console.log("password is", password)
+  return password; 
 }
 
 // Get references to the #generate element
